@@ -7,11 +7,11 @@ Consistence Hash Ring Mysql For Mysql
 
 How to Use, you can also bind django models:
 
-class UserChannelLayout(BaseLayout):
+class UserHomeLayout(BaseLayout):
     TABLE_NAME = "user_channel_layout"
     
     def __init__(self, guid, value):
-        super(UserChannelLayout, self).__init__(guid, value)
+        super(UserHomeLayout, self).__init__(guid, value)
 
 
 if __name__ == "__main__":
