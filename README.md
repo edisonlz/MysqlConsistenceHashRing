@@ -2,7 +2,8 @@ MysqlConsistenceHashRing
 ========================
 
 Consistence Hash Ring Mysql For Mysql
-[code]
+
+```
 
 How to Use:
 
@@ -43,4 +44,4 @@ if __name__ == "__main__":
     now = time.time()
     print "result:", UserHomeLayout.get(guid)
     print "get use:", time.time() - now
-[/code]
+```
