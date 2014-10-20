@@ -6,6 +6,36 @@ Consistence Hash Ring Mysql For Mysql
 How to Use, you can also bind django models:
 
 ```
+#coding=utf-8
+from  consistent import MysqlHashClient
+from settings import host_config
+import time
+import logging
+
+class BaseLayout(object):
+    #mysql consistence ring static class object
+    client = MysqlHashClient(host_config)
+    #mysql table name must extent
+    TABLE_NAME = ""
+
+    def __init__(self, guid, value):
+        self.guid = guid
+        self.value = value
+
+    def set(self):
+        return self.client.set(key=self.guid,\
+                        value=self.value, table_name=self.TABLE_NAME)
+
+    @classmethod
+    def delete(cls, guid):
+        return cls.client.delete(guid, table_name=cls.TABLE_NAME)
+
+
+    @classmethod
+    def get(cls, guid):
+        return cls.client.get(guid, table_name=cls.TABLE_NAME)
+
+
 class UserHomeLayout(BaseLayout):
     TABLE_NAME = "user_channel_layout"
     
