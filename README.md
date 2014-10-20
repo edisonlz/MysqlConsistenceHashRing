@@ -5,7 +5,7 @@ Consistence Hash Ring Mysql For Mysql
 
 ```
 
-How to Use:
+How to Use, you can also bind django models:
 
 class UserChannelLayout(BaseLayout):
     TABLE_NAME = "user_channel_layout"
