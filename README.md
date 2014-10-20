@@ -3,10 +3,9 @@ MysqlConsistenceHashRing
 
 Consistence Hash Ring Mysql For Mysql
 
-```
-
 How to Use, you can also bind django models:
 
+```
 class UserHomeLayout(BaseLayout):
     TABLE_NAME = "user_channel_layout"
     
@@ -45,3 +44,4 @@ if __name__ == "__main__":
     print "result:", UserHomeLayout.get(guid)
     print "get use:", time.time() - now
 ```
+
