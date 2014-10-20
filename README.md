@@ -1,7 +1,9 @@
 MysqlConsistenceHashRing
 ========================
 
-Consistence Hash Ring Mysql For Mysql
+Consistence Hash Ring Mysql For Mysql , and it is client end implement, not proxy! why doesn't use proxy optimise connection number， because not want reduce performance, join it!
+
+
 
 How to Use, you can also bind django models:
 
