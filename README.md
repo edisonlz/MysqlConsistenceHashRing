@@ -15,7 +15,7 @@ import logging
 class BaseLayout(object):
     #mysql consistence ring static class object
     client = MysqlHashClient(host_config)
-    #mysql table name must extent
+    #mysql table name must extend
     TABLE_NAME = ""
 
     def __init__(self, guid, value):
