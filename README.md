@@ -45,7 +45,7 @@ if __name__ == "__main__":
     print "get use:", time.time() - now
 ```
 
-Config see settings.py
+Mysql DB Config use settings.py
 
 ```
 
