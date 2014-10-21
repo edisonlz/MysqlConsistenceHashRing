@@ -1,17 +1,48 @@
 MysqlConsistenceHashRing
 ========================
 
-Consistence Hash Ring Mysql For Mysql
+Consistence Hash Ring Mysql For Mysql , and it is client end implement, not proxy! why doesn't use proxy optimise connection number， because not want reduce performance, join it!
 
-```
+
 
 How to Use, you can also bind django models:
 
-class UserChannelLayout(BaseLayout):
+```
+#coding=utf-8
+from  consistent import MysqlHashClient
+from settings import host_config
+import time
+import logging
+
+class BaseLayout(object):
+    #mysql consistence ring static class object
+    client = MysqlHashClient(host_config)
+    #mysql table name must extend
+    TABLE_NAME = ""
+
+    def __init__(self, guid, value):
+        self.guid = guid
+        self.value = value
+
+    def set(self):
+        return self.client.set(key=self.guid,\
+                        value=self.value, table_name=self.TABLE_NAME)
+
+    @classmethod
+    def delete(cls, guid):
+        return cls.client.delete(guid, table_name=cls.TABLE_NAME)
+
+
+    @classmethod
+    def get(cls, guid):
+        return cls.client.get(guid, table_name=cls.TABLE_NAME)
+
+
+class UserHomeLayout(BaseLayout):
     TABLE_NAME = "user_channel_layout"
     
     def __init__(self, guid, value):
-        super(UserChannelLayout, self).__init__(guid, value)
+        super(UserHomeLayout, self).__init__(guid, value)
 
 
 if __name__ == "__main__":
@@ -45,3 +76,22 @@ if __name__ == "__main__":
     print "result:", UserHomeLayout.get(guid)
     print "get use:", time.time() - now
 ```
+
+Mysql DB Config use settings.py
+
+```
+
+host_config = {
+        "hosts": [{
+            'db': 'youku_mobile_user', # Or path to database file if using sqlite3.
+            'user': 'root', # Not used with sqlite3.
+            'passwd': '', # Not used with sqlite3.
+            'host': 'localhost', # Set to sempty string for localhost. Not used with sqlite3.
+            'port': 3306, # Set to empty string for default. Not used with sqlite3.
+            'init_command': 'SET storage_engine=INNODB;set SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; set autocommit=0;set  names "utf8";'
+        }]
+    }
+```
+
+
+Add or Remove Server , Rebalance python script for next version, Coming soon! 
