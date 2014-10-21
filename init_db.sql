@@ -1,5 +1,5 @@
 
-CREATE SCHEMA `youku_mobile_user` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
+CREATE database `youku_mobile_user` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci ;
 CREATE  TABLE `youku_mobile_user`.`user_home_layout` (
   `ikey` VARCHAR(32) NOT NULL ,
   `value` VARCHAR(50) NULL ,

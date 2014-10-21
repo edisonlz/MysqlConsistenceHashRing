@@ -1,11 +1,16 @@
 #coding=utf-8
+
+#
+# you are right in this statement
+# http://www.tokutek.com/2010/07/why-insert-on-duplicate-key-update-may-be-slow-by-incurring-disk-seeks/
+#
+
 import bisect
 import hashlib
 import MySQLdb
 import time
 import logging
 import json
-
 
 
 class ConsistentHashRing(object):
@@ -92,11 +97,15 @@ class MysqlHashClient(object):
             self.consistent_ring[nodename] = conn
 
 
+    def get_client(self, key):
+        client = self.consistent_ring[key]
+        return client
+
+
     def delete(self, key, table_name=""):
-        
         if not table_name:
             raise Exception("table name must set!")
-        
+
         client = self.consistent_ring[key]
         try:
             cursor = client.cursor()
@@ -110,20 +119,21 @@ class MysqlHashClient(object):
 
 
     def set(self, key, value, table_name=""):
-
         if not table_name:
             raise Exception("table name must set!")
-        
+
         client = self.consistent_ring[key]
         try:
             value = json.dumps(value)
             cursor = client.cursor()
-            sql = "insert into %s(ikey,value) VALUES('%s','%s') \
-                 ON DUPLICATE KEY UPDATE value='%s'" % (table_name, key, value, value)
+            #            sql = "insert into %s(ikey,value) VALUES('%s','%s') \
+            #                 ON DUPLICATE KEY UPDATE value='%s'" % (table_name, key, value, value)
+            #why use replace into look this file head
+            sql = "replace into %s(ikey,value) VALUES('%s','%s')" % (table_name, key, value)
             logging.debug(sql)
             n = cursor.execute(sql)
-            client.commit()
             cursor.close()
+            client.commit()
             return n
         except Exception, e:
             logging.error(e)
@@ -131,7 +141,6 @@ class MysqlHashClient(object):
             return None
 
     def get(self, key, table_name=""):
-
         if not table_name:
             raise Exception("table name must set!")
 
@@ -168,7 +177,7 @@ if __name__ == "__main__":
 
     now = time.time()
     value = [1, 2, 3, 6]
-    myclient.set(key, value , table_name="user_home_layout")
+    myclient.set(key, value, table_name="user_home_layout")
     print "set dup use:", time.time() - now
 
     now = time.time()
