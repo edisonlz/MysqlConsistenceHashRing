@@ -111,6 +111,7 @@ class MysqlHashClient(object):
             cursor = client.cursor()
             sql = "delete from %s where ikey='%s'" % (table_name, key)
             n = cursor.execute(sql)
+            logging.debug(sql)
             client.commit()
             cursor.close()
             return n
@@ -123,6 +124,7 @@ class MysqlHashClient(object):
             raise Exception("table name must set!")
 
         client = self.consistent_ring[key]
+        print "set client into", client.get_host_info(),key
         try:
             value = json.dumps(value)
             cursor = client.cursor()

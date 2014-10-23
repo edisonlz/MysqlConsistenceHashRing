@@ -6,12 +6,13 @@ from consistent import MysqlHashClient
 import settings
 import logging
 
+
 class Rebalance(object):
     """
     Rebalance add or remove db
     """
 
-    def __init__(self, old_config, new_config, table_name):
+    def __init__(self, new_config, old_config, table_name):
         self.old_config = old_config
         self.new_config = new_config
         self.table_name = table_name
@@ -40,6 +41,7 @@ class Rebalance(object):
                 cursor = host.cursor()
                 cursor.execute(sql)
                 rows = cursor.fetchall()
+
                 if not rows:
                     cursor.close()
                     break
@@ -50,14 +52,15 @@ class Rebalance(object):
 
                     nc = self.new_client.get_client(guid)
                     oc = self.old_client.get_client(guid)
-
-                    if nc.host == oc.host and nc.port == oc.port:
+                    #print nc.__dict__
+                    if nc.get_host_info() == oc.get_host_info():
                         pass
                     else:
+                        print "move form %s to %s" % (oc.get_host_info(), nc.get_host_info()), guid, value
                         #key in old and new not same
                         self.move(guid, value)
 
-                #next page
+                #next page 
                 offset += limit
 
 
@@ -67,6 +70,7 @@ class Rebalance(object):
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level="DEBUG")
     rb = Rebalance(settings.host_config, settings.old_host_config, settings.rebalance_db_table)
     rb.run()
 
