@@ -124,7 +124,7 @@ class MysqlHashClient(object):
             raise Exception("table name must set!")
 
         client = self.consistent_ring[key]
-        print "set client into", client.get_host_info(),key
+        #print "set client into", client.get_host_info(),key
         try:
             value = json.dumps(value)
             cursor = client.cursor()

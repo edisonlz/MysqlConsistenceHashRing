@@ -94,4 +94,8 @@ host_config = {
 ```
 
 
-Add or Remove Server , Rebalance python script for next version, Coming soon! 
+Add or Remove Server , Rebalance python script!
+```
+#config use settings
+python rebalance.py
+```
