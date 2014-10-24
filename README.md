@@ -102,7 +102,7 @@ python rebalance.py
 
 
 ```
-Test for 2 nodes
+Test for 2 nodes , Ten thousand data。
 
 
 mysql one> select count(*) from user_home_layout;
