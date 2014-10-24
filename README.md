@@ -127,21 +127,21 @@ Test for add one node , now 3 nodes
 > python rebalance.py
 
 
-New node mysql> select count(*) from user_home_layout;
+New node mysql one> select count(*) from user_home_layout;
 +----------+
 | count(*) |
 +----------+
 |     3479 |
 +----------+
 
-mysql one> select count(*) from user_home_layout;
+mysql two> select count(*) from user_home_layout;
 +----------+
 | count(*) |
 +----------+
 |     3322 |
 +----------+
 
-mysql two> select count(*) from user_home_layout;
+mysql three> select count(*) from user_home_layout;
 +----------+
 | count(*) |
 +----------+
@@ -200,6 +200,20 @@ mysql two> select count(*) from user_home_layout_p2;
 ```
 Test for add one node , now 3 nodes , 2 partitiosn/node
 
+mysql three> select count(*) from user_home_layout_p2;
++----------+
+| count(*) |
++----------+
+|     1518 |
++----------+
+1 row in set (0.01 sec)
 
+mysql three> select count(*) from user_home_layout_p1;
++----------+
+| count(*) |
++----------+
+|     1857 |
++----------+
+1 row in set (0.00 sec)
 
 ```

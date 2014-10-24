@@ -11,6 +11,7 @@ from consistent import MysqlHashClient
 from  MysqlConsistenceHashRing import settings
 import logging
 from multiprocessing import Pool
+import copy
 
 
 class Rebalance(object):
@@ -22,16 +23,15 @@ class Rebalance(object):
         self.old_config = old_config
         self.new_config = new_config
         self.table_name = table_name
-        self.new_client = MysqlHashClient(self.new_config)
-        self.old_client = MysqlHashClient(self.old_config)
-        self.init_old_host(self.old_config)
+        self.new_client = MysqlHashClient(copy.deepcopy(new_config))
+        self.old_client = MysqlHashClient(copy.deepcopy(old_config))
+        self.init_old_host(copy.deepcopy(old_config))
 
 
     def init_old_host(self, hosts_config):
         self.old_mysql_list = []
         self.i_old_mysql_list = []
         self.hosts = hosts_config.get("hosts")
-        print hosts_config
         self.pool = Pool(len(self.hosts))
         i = 0
         print "###### rabalance load ######"
@@ -114,6 +114,7 @@ if __name__ == "__main__":
 
     rb = Rebalance(settings.host_config, settings.old_host_config, settings.rebalance_db_table)
     rb.run()
+    
 #    nc = rb.new_client.get_client("bdbb8cb597f1299d252389ea69c0a436")
 #    oc = rb.old_client.get_client("bdbb8cb597f1299d252389ea69c0a436")
 #    print nc.get_host_info(),oc.get_host_info()
