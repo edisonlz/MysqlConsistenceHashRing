@@ -6,7 +6,7 @@ import hashlib
 if __name__ == "__main__":
 
 
-    for i in xrange(679000,1000000):
+    for i in xrange(0,10000):
         guid = hashlib.md5(str(i)).hexdigest()
         value = {"index":i}
         user_layout = UserHomeLayout(guid, value)

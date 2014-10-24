@@ -99,3 +99,53 @@ Add or Remove Server , Rebalance python script!
 #config use settings
 python rebalance.py
 ```
+
+
+```
+Test for 2 nodes
+
+
+mysql one> select count(*) from user_home_layout;
++----------+
+| count(*) |
++----------+
+|     5283 |
+
+
+mysql two> select count(*) from user_home_layout;
++----------+
+| count(*) |
++----------+
+|     4717 |
++----------+
+
+```
+
+
+```
+Test for add one node , now 3 nodes
+> python rebalance.py
+
+
+New node mysql> select count(*) from user_home_layout;
++----------+
+| count(*) |
++----------+
+|     3479 |
++----------+
+
+mysql one> select count(*) from user_home_layout;
++----------+
+| count(*) |
++----------+
+|     3322 |
++----------+
+
+mysql two> select count(*) from user_home_layout;
++----------+
+| count(*) |
++----------+
+|     3199 |
++----------+
+
+```

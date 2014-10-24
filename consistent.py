@@ -111,11 +111,13 @@ class MysqlHashClient(object):
             cursor = client.cursor()
             sql = "delete from %s where ikey='%s'" % (table_name, key)
             n = cursor.execute(sql)
-            logging.debug(sql)
-            client.commit()
+            logging.debug(sql + "; client:" + client.get_host_info())
+
             cursor.close()
+            client.commit()
             return n
         except Exception, e:
+            print e
             logging.error(e)
 
 
@@ -132,7 +134,7 @@ class MysqlHashClient(object):
             #                 ON DUPLICATE KEY UPDATE value='%s'" % (table_name, key, value, value)
             #why use replace into look this file head
             sql = "replace into %s(ikey,value) VALUES('%s','%s')" % (table_name, key, value)
-            logging.debug(sql)
+            logging.debug(sql + "; client:" + client.get_host_info())
             n = cursor.execute(sql)
             cursor.close()
             client.commit()
