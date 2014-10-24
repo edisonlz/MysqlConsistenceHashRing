@@ -218,7 +218,7 @@ mysql two> select count(*) from user_home_layout_p2;
 ```
 Test for add one node , now 3 nodes , 2 partitiosn/node
 
-mysql> select count(*) from user_home_layout_p2;
+mysql three> select count(*) from user_home_layout_p2;
 +----------+
 | count(*) |
 +----------+
@@ -226,7 +226,7 @@ mysql> select count(*) from user_home_layout_p2;
 +----------+
 1 row in set (0.00 sec)
 
-mysql> select count(*) from user_home_layout_p1;
+mysql three> select count(*) from user_home_layout_p1;
 +----------+
 | count(*) |
 +----------+
