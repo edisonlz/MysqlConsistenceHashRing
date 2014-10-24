@@ -156,3 +156,50 @@ so ...
 >>> 3322 + 3199 + 3479
 10000
 ```
+
+
+New Feature Partition
+```
+Test for 2 nodes ,2 partitions/node, Ten thousand data。
+
+mysql one> select count(*) from user_home_layout_p1;
++----------+
+| count(*) |
++----------+
+|     2492 |
++----------+
+1 row in set (0.00 sec)
+
+mysql one > select count(*) from user_home_layout_p2;
++----------+
+| count(*) |
++----------+
+|     2610 |
++----------+
+1 row in set (0.00 sec)
+
+
+mysql two> select count(*) from user_home_layout_p1;
++----------+
+| count(*) |
++----------+
+|     2362 |
++----------+
+1 row in set (0.00 sec)
+
+mysql two> select count(*) from user_home_layout_p2;
++----------+
+| count(*) |
++----------+
+|     2536 |
++----------+
+1 row in set (0.00 sec)
+
+```
+
+```
+Test for add one node , now 3 nodes , 2 partitiosn/node
+
+
+
+```

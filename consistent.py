@@ -90,23 +90,37 @@ class MysqlHashClient(object):
         self.mysql_list = []
         self.hosts = hosts_config.get("hosts")
 
+        print "*" * 60
         for h in self.hosts:
-            nodename = "%s:%s" % (h["host"], h["port"])
-            conn = MySQLdb.connect(**h)
-            self.mysql_list.append(conn)
-            self.consistent_ring[nodename] = conn
+            for p in h.pop("partitions", [1]):
+                nodename = "%s:%s:%s" % (h["host"], h["port"], p)
+                print "[add node]" , nodename
+                conn = MySQLdb.connect(**h)
+                self.mysql_list.append(conn)
+                self.consistent_ring[nodename] = {"conn": conn, "partition_id": p}
+        print "*" * 60
 
 
     def get_client(self, key):
         client = self.consistent_ring[key]
-        return client
+        return client.get("conn")
 
 
-    def delete(self, key, table_name=""):
+    def get_partition_id(self, key):
+        client = self.consistent_ring[key]
+        return client.get("partition_id")
+
+    def gen_table_name(self, key, table_name=""):
         if not table_name:
             raise Exception("table name must set!")
 
-        client = self.consistent_ring[key]
+        table_name = "%s_p%s" % (table_name, self.get_partition_id(key))
+        return table_name
+
+    def delete(self, key, table_name=""):
+        table_name = self.gen_table_name(key, table_name)
+
+        client = self.get_client(key)
         try:
             cursor = client.cursor()
             sql = "delete from %s where ikey='%s'" % (table_name, key)
@@ -122,10 +136,9 @@ class MysqlHashClient(object):
 
 
     def set(self, key, value, table_name=""):
-        if not table_name:
-            raise Exception("table name must set!")
+        table_name = self.gen_table_name(key, table_name)
 
-        client = self.consistent_ring[key]
+        client = self.get_client(key)
         #print "set client into", client.get_host_info(),key
         try:
             value = json.dumps(value)
@@ -145,10 +158,9 @@ class MysqlHashClient(object):
             return None
 
     def get(self, key, table_name=""):
-        if not table_name:
-            raise Exception("table name must set!")
+        table_name = self.gen_table_name(key, table_name)
 
-        client = self.consistent_ring[key]
+        client = self.get_client(key)
         try:
             cursor = client.cursor()
             sql = "select value from %s where ikey='%s'" % (table_name, key)
