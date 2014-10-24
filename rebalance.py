@@ -36,7 +36,7 @@ class Rebalance(object):
         i = 0
         print "###### rabalance load ######"
         for h in self.hosts:
-            for p in h.pop("partitions", [1]):
+            for p in h.pop("partitions", [""]):
                 conn = MySQLdb.connect(**h)
                 print "%s:%s:%s" % (h["host"], h["port"], p)
                 self.old_mysql_list.append({"conn": conn, "partition_id": p})

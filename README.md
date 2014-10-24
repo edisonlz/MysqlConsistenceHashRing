@@ -200,20 +200,22 @@ mysql two> select count(*) from user_home_layout_p2;
 ```
 Test for add one node , now 3 nodes , 2 partitiosn/node
 
-mysql three> select count(*) from user_home_layout_p2;
+mysql> select count(*) from user_home_layout_p2;
 +----------+
 | count(*) |
 +----------+
-|     1518 |
+|     1647 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select count(*) from user_home_layout_p1;
++----------+
+| count(*) |
++----------+
+|     1728 |
 +----------+
 1 row in set (0.01 sec)
 
-mysql three> select count(*) from user_home_layout_p1;
-+----------+
-| count(*) |
-+----------+
-|     1857 |
-+----------+
-1 row in set (0.00 sec)
+
 
 ```

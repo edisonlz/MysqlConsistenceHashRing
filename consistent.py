@@ -92,7 +92,7 @@ class MysqlHashClient(object):
 
         print "*" * 60
         for h in self.hosts:
-            for p in h.pop("partitions", [1]):
+            for p in h.pop("partitions", [""]):
                 nodename = "%s:%s:%s" % (h["host"], h["port"], p)
                 print "[add node]" , nodename
                 conn = MySQLdb.connect(**h)
