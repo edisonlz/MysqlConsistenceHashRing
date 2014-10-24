@@ -149,3 +149,10 @@ mysql two> select count(*) from user_home_layout;
 +----------+
 
 ```
+
+
+```
+so ...
+>>> 3322 + 3199 + 3479
+10000
+```
